@@ -123,14 +123,6 @@ The theoretical foundation:
 - Sharma, J. K. (2017). *Operations Research: Theory and Applications* (6th ed.), Chapter 11 — Assignment Problem.
 - Taha, H. A. (2017). *Operations Research: An Introduction* (10th ed.), Section 5.4.
 
-## Credits
-
-Built as a mini-project for **24CB440 — Operations Research** at **JSS Science and Technology University, Mysuru**, under the guidance of **Prof. Nagarjun A**, Assistant Professor, Department of Computer Science and Business Systems.
-
-- Amith Choudhary — [@meisamith](https://github.com/meisamith)
-- Anuram Pranav
-- Sughosh Kulkarni
-
 ---
 
 <div align="center">
