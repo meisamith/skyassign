@@ -125,10 +125,6 @@ The theoretical foundation:
 
 ---
 
-<div align="center">
 
-*If you're a recruiter, a fellow OR student, or a curious engineer — thanks for reading this far.*
 
-*If you're a viva examiner — every zero on that matrix is provable, and I'll happily prove it.*
-
-</div>
+MIT License · © 2026 Amith Choudhary, Anuram Pranav, Sughosh Kulkarni
