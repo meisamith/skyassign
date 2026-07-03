@@ -1,0 +1,153 @@
+@import "tailwindcss";
+
+@theme {
+  /* Aerospace / ATC color tokens */
+  --color-atc-void: #05080f;          /* deepest background */
+  --color-atc-deep: #0a0e1a;          /* primary bg */
+  --color-atc-panel: #0f1524;         /* panel bg */
+  --color-atc-grid: #14233a;          /* radar grid lines */
+  --color-atc-border: #1f3358;        /* panel borders */
+
+  --color-atc-scope: #00ff9c;         /* radar green */
+  --color-atc-scope-dim: #008f56;     /* dim radar green */
+  --color-atc-amber: #ffb627;         /* amber HUD */
+  --color-atc-amber-dim: #8a6010;     /* dim amber */
+  --color-atc-warn: #ff3b3b;          /* warning red */
+  --color-atc-crit: #ff0033;          /* critical red */
+  --color-atc-hud: #e8eef7;           /* HUD white */
+  --color-atc-mute: #5a6478;          /* muted text */
+  --color-atc-cyan: #4ad6ff;          /* secondary data */
+
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+  --font-display: var(--font-ibm-plex-mono), ui-monospace, monospace;
+}
+
+html, body {
+  background: var(--color-atc-void);
+  color: var(--color-atc-hud);
+}
+
+/* Radar grid backdrop — drawn with CSS gradients, no image needed */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    linear-gradient(var(--color-atc-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--color-atc-grid) 1px, transparent 1px);
+  background-size: 48px 48px;
+  opacity: 0.18;
+  mask-image: radial-gradient(ellipse at center, black 40%, transparent 90%);
+}
+
+/* CRT scanline overlay */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 255, 156, 0.018) 0px,
+    rgba(0, 255, 156, 0.018) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  mix-blend-mode: screen;
+}
+
+/* All content sits above the overlays */
+body > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* Selection */
+::selection {
+  background: var(--color-atc-amber);
+  color: var(--color-atc-void);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: var(--color-atc-deep); }
+::-webkit-scrollbar-thumb {
+  background: var(--color-atc-border);
+  border-radius: 0;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--color-atc-scope-dim); }
+
+/* Utility: glowing text for HUD readouts */
+.glow-scope { text-shadow: 0 0 6px var(--color-atc-scope), 0 0 12px rgba(0,255,156,0.4); }
+.glow-amber { text-shadow: 0 0 6px var(--color-atc-amber), 0 0 12px rgba(255,182,39,0.4); }
+.glow-warn  { text-shadow: 0 0 6px var(--color-atc-warn),  0 0 12px rgba(255,59,59,0.4); }
+
+/* Pulsing warn for critical fuel — applied to SVG text via CSS class */
+@keyframes pulse-warn {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.35; }
+}
+.pulse-warn { animation: pulse-warn 1s ease-in-out infinite; }
+
+/* Scope border ambient glow */
+.scope-glow {
+  box-shadow:
+    0 0 40px rgba(0, 255, 156, 0.04),
+    inset 0 0 60px rgba(0, 0, 0, 0.6);
+}
+
+/* Matrix cell flash when value changes */
+@keyframes matrixFlash {
+  0%   { background-color: rgba(0, 255, 156, 0.45); }
+  100% { background-color: transparent; }
+}
+
+/* Step checkbox green fill */
+@keyframes stepCheck {
+  from { transform: scale(0.5); opacity: 0; }
+  to   { transform: scale(1);   opacity: 1; }
+}
+
+/* Assignment vector line draw-on animation */
+@keyframes drawLine {
+  to { stroke-dashoffset: 0; }
+}
+
+/* Naive mode: amber greedy pick flash */
+@keyframes naivePickFlash {
+  0%   { background-color: rgba(255,182,39,0.55); }
+  100% { background-color: rgba(255,182,39,0.12); }
+}
+
+/* Crash: aircraft icon flashes red 3×, then stays red */
+@keyframes crashFlash {
+  0%    { opacity: 1; }
+  14%   { opacity: 0.08; }
+  28%   { opacity: 1; }
+  42%   { opacity: 0.08; }
+  56%   { opacity: 1; }
+  70%   { opacity: 0.08; }
+  100%  { opacity: 1; }
+}
+
+/* EMERGENCY vignette — screen-edge red pulse */
+@keyframes emergencyVignette {
+  0%, 100% { box-shadow: inset 0 0 90px rgba(255,59,59,0.0); }
+  50%       { box-shadow: inset 0 0 90px rgba(255,59,59,0.18); }
+}
+
+/* EMERGENCY status badge flicker */
+@keyframes emergencyBlink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0.25; }
+}
+
+/* Fuel saved life glow pulse */
+@keyframes lifeSavedPulse {
+  0%, 100% { text-shadow: 0 0 6px var(--color-atc-scope), 0 0 12px rgba(0,255,156,0.4); }
+  50%       { text-shadow: 0 0 10px var(--color-atc-scope), 0 0 22px rgba(0,255,156,0.7); }
+}
+.life-saved-glow { animation: lifeSavedPulse 1.5s ease-in-out infinite; }
