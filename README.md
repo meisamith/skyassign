@@ -127,4 +127,4 @@ The theoretical foundation:
 
 
 
-MIT License · © 2026 Amith Choudhary, Anuram Pranav, Sughosh Kulkarni
+MIT License · © 2026 
